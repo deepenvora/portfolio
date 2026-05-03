@@ -1342,7 +1342,8 @@ img[src="assets/case-studies/famli/goals.png"]{max-width:100%;height:auto;displa
 /* ── Insights grid (2-col with star icons) ── */
 .cs-insights-grid-wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px 72px}
 .cs-insight-item{display:flex;flex-direction:column;gap:6px}
-.cs-insight-star{margin-bottom:4px;flex:0 0 20px;line-height:1}
+.cs-insight-header{display:flex;align-items:center;gap:8px}
+.cs-insight-star{flex:0 0 20px;line-height:1}
 .cs-insight-head{font-size:16px;font-weight:700;line-height:1.4;color:var(--ink);margin:0}
 .cs-insight-desc{font-size:15px;line-height:1.6;color:var(--ink-2);margin:0}
 
