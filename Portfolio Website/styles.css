@@ -1319,6 +1319,9 @@ img[src="assets/case-studies/famli/goals.png"]{max-width:100%;height:auto;displa
 /* ── Full-width image ── */
 .cs-full-img{border-radius:12px;overflow:hidden}
 .cs-full-img img{width:100%;display:block}
+
+/* ── Features wrap spacing ── */
+.cs-features-wrap{margin-bottom:80px}
 .cs-img-caption{margin:12px 0 0;font-size:20px;line-height:30px;color:var(--muted);text-align:center}
 
 /* ── Persona ── */
