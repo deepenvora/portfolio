@@ -127,8 +127,8 @@ function renderLeaders(){
   const cardStyles = [
     {card:"border-width:0px;border-radius:16px;padding:8px", ic:"background-color:rgb(255,255,255);padding:0px"},
     {card:"border-width:0px;border-radius:16px;padding:8px", ic:"background-color:rgb(255,255,255);padding:0px"},
-    {card:"border-width:0px;border-radius:16px;padding:8px", ic:"background-color:rgb(255,255,255);padding:0px", col:"margin:20px 0px 0px"},
-    {card:"border-width:0px;border-radius:1px;padding:8px;margin:40px 0px 0px", ic:"background-color:rgb(255,255,255);padding:0px;border-radius:0px", col:"padding:0px 0px 0px 20px;opacity:1"},
+    {card:"border-width:0px;border-radius:16px;padding:8px", ic:"background-color:rgb(255,255,255);padding:0px"},
+    {card:"border-width:0px;border-radius:1px;padding:8px", ic:"background-color:rgb(255,255,255);padding:0px;border-radius:0px", col:"padding:0px 0px 0px 20px;opacity:1"},
   ];
   LEADERS.forEach((l,i)=>{
     const s = cardStyles[i] || {};
