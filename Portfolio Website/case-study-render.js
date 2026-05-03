@@ -289,7 +289,7 @@
   body.innerHTML = `
     ${heroHtml}
     ${heroImgHtml}
-    <section style="padding:72px 0 96px">
+    <section style="padding:120px 0">
       <div class="container">
         ${sectionsHtml}
         ${navHtml}
