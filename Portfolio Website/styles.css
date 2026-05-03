@@ -1301,25 +1301,19 @@ body.dark .cs-quote-card{background:var(--bg-soft)}
 
 /* ── Research section ── */
 .cs-research-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
-.cs-research-img{border-radius:0;overflow:hidden;border-width:0;width:450px}
-.cs-research-img img{width:450px;height:600px;display:block}
+.cs-research-img{border-radius:0;overflow:hidden;border-width:0}
+.cs-research-img img{width:100%;height:auto;display:block}
 .cs-sublabel{font-size:20px;line-height:30px;color:rgb(24,29,39);font-weight:700;margin:0 0 16px}
 .cs-research-grid .cs-body{color:rgb(164,167,174)}
-.cs-persona-img{width:420px}
-.cs-persona-img img{width:420px;display:block;border-radius:12px}
-.cs-persona-grid>div:last-child{margin:0 100px 0 0;width:500px}
+.cs-persona-img{width:100%}
+.cs-persona-img img{width:100%;display:block;border-radius:12px}
+.cs-persona-grid>div:last-child{}
 .cs-persona-grid .cs-bullets{margin:0 40px 0 0}
-img[src="assets/case-studies/famli/one-view-money.png"]{width:493px;height:563px;margin:0 0 0 60px}
-img[src="assets/case-studies/famli/portfolio-insights.png"]{width:420px;height:589px}
-img[src="assets/case-studies/famli/research-buddy.png"]{width:505px;height:578px;margin:0 0 0 80px}
-img[src="assets/case-studies/famli/goals.png"]{width:4px;height:653px}
-.cs-feature:nth-child(1) .cs-feat-img{width:493px}
-.cs-feature:nth-child(1) .cs-feat-body{width:600px}
-.cs-feature:nth-child(2) .cs-feat-img{width:420px}
-.cs-feature:nth-child(3) .cs-feat-img{width:469px}
-.cs-feature:nth-child(4) .cs-feat-body{width:380px}
-.cs-feature:nth-child(4) .cs-feat-img{width:469px}
-.cs-quote-card{background:#FAFAFA;border-radius:16px;padding:24px;height:100%;display:flex;flex-direction:column;gap:12px;justify-content:center;width:420px;margin:0 0 0 40px}
+img[src="assets/case-studies/famli/one-view-money.png"]{max-width:100%;height:auto;display:block}
+img[src="assets/case-studies/famli/portfolio-insights.png"]{max-width:100%;height:auto;display:block}
+img[src="assets/case-studies/famli/research-buddy.png"]{max-width:100%;height:auto;display:block}
+img[src="assets/case-studies/famli/goals.png"]{max-width:100%;height:auto;display:block}
+.cs-quote-card{background:#FAFAFA;border-radius:16px;padding:24px;height:100%;display:flex;flex-direction:column;gap:12px;justify-content:center}
 .cs-insights-sub-title{font-size:20px;font-weight:700;line-height:30px;color:var(--ink);margin:24px 0 12px}
 
 /* ── Full-width image ── */
