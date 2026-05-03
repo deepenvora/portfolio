@@ -196,7 +196,7 @@ function renderTestimonials(){
 }
 
 // case study link
-const CS_PAGE_URLS = {famli:"famli.html",otc:"otc.html",phlebo:"phlebo.html",thyro:"diagnostics.html"};
+const CS_PAGE_URLS = {famli:"famli.html",otc:"otc-seller-portal.html",phlebo:"phlebo.html",thyro:"tc-diagnostics.html"};
 function openModal(id){ window.location.href = CS_PAGE_URLS[id] || "case-study.html?id=" + encodeURIComponent(id); }
 
 // ---------- Tweaks ----------

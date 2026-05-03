@@ -8,9 +8,9 @@
   /* ── Page URL map ── */
   const PAGE_URLS = {
     famli:  "famli.html",
-    otc:    "otc.html",
+    otc:    "otc-seller-portal.html",
     phlebo: "phlebo.html",
-    thyro:  "diagnostics.html"
+    thyro:  "tc-diagnostics.html"
   };
 
   const id  = window.__CS_ID__ || new URLSearchParams(location.search).get("id") || "famli";
@@ -243,7 +243,7 @@
   const heroHtml = `
     <section class="cs-hero" style="background:${cs.heroColor}">
       <div class="container">
-        <a href="Portfolio.html#work" class="cs-back back-link">← Back to projects</a>
+        <a href="index.html#work" class="cs-back back-link">← Back to projects</a>
         <div class="cs-tags">${tagsHtml}</div>
         <h1 class="cs-title">${cs.title}</h1>
         <p class="cs-subtitle">${cs.subtitle}</p>
