@@ -1,0 +1,305 @@
+/* ============================================================
+   Shared case study renderer
+   Reads window.__CS_ID__ (set by each dedicated page) or falls
+   back to the ?id= URL param for backward compatibility.
+   ============================================================ */
+(function(){
+
+  /* ── Page URL map ── */
+  const PAGE_URLS = {
+    famli:  "famli.html",
+    otc:    "otc.html",
+    phlebo: "phlebo.html",
+    thyro:  "diagnostics.html"
+  };
+
+  const id  = window.__CS_ID__ || new URLSearchParams(location.search).get("id") || "famli";
+  const cs  = CS_DATA[id];
+  const body = document.getElementById("caseBody");
+  if(!cs){ body.innerHTML="<div class='container' style='padding:80px 0'><p>Case study not found.</p></div>"; return; }
+
+  const allIds = ["famli","otc","phlebo","thyro"];
+  const idx    = allIds.indexOf(id);
+  const prevId = allIds[(idx - 1 + allIds.length) % allIds.length];
+  const nextId = allIds[(idx + 1) % allIds.length];
+  const prev   = PROJECTS.find(x => x.id === prevId);
+  const next   = PROJECTS.find(x => x.id === nextId);
+  const prevUrl = PAGE_URLS[prevId] || ("case-study.html?id=" + prevId);
+  const nextUrl = PAGE_URLS[nextId] || ("case-study.html?id=" + nextId);
+
+  document.title = cs.title + " — Deepen Vora";
+
+  /* checkmark SVG */
+  const CHECK = `<svg class="cs-outcome-icon" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="24" r="20" stroke="rgb(88,165,145)" stroke-width="2.5"/><path d="M15 24.5l6.5 6.5 11.5-13" stroke="rgb(88,165,145)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+  /* tag row from PROJECTS */
+  const p = PROJECTS.find(x => x.id === id);
+  const tagsHtml = p ? p.tags.map(t=>`<span class="tag ${t.c||""}">${t.l}</span>`).join("") : "";
+
+  /* bullets helper */
+  const bul = (arr, cls="cs-bullets") => arr.length
+    ? `<ul class="${cls}">${arr.map(b=>`<li>${b}</li>`).join("")}</ul>` : "";
+
+  /* ── Section renderers ── */
+  const renderers = {
+
+    "text": s => `
+      <div class="cs-section">
+        <h2 class="cs-h2">${s.heading}</h2>
+        <p class="cs-body${s.muted?" muted":""}">${s.body}</p>
+      </div>`,
+
+    "bullets": s => `
+      <div class="cs-section">
+        <h2 class="cs-h2">${s.heading}</h2>
+        ${bul(s.items)}
+      </div>`,
+
+    "two-col": s => {
+      const renderCol = col => {
+        if(col.type === "quote") return `
+          <div class="cs-quote-card">
+            <span class="cs-quote-label">${col.label}</span>
+            <p class="cs-quote-text">${col.text}</p>
+          </div>`;
+        const inner = col.lines
+          ? bul(col.lines, "cs-bullets")
+          : bul(col.items || [], "cs-bullets");
+        return `<h2 class="cs-col-heading">${col.heading}</h2>${inner}`;
+      };
+      return `
+        <div class="cs-section">
+          <div class="cs-two-col">
+            <div>${renderCol(s.left)}</div>
+            <div>${renderCol(s.right)}</div>
+          </div>
+        </div>`;
+    },
+
+    "goals": s => `
+      <div class="cs-section">
+        <h2 class="cs-h2">${s.heading}</h2>
+        <div class="cs-goals-grid">
+          ${s.items.map(g=>`
+            <div class="cs-goal-card">
+              <p class="cs-goal-title">${g.title}</p>
+              <p class="cs-goal-desc">${g.desc}</p>
+            </div>`).join("")}
+        </div>
+      </div>`,
+
+    "persona": s => `
+      <div class="cs-section">
+        <h2 class="cs-h2">${s.heading}</h2>
+        <div class="cs-persona-grid">
+          <div class="cs-persona-img"><img src="${s.img}" alt="User persona" loading="lazy"/></div>
+          <div>
+            <p class="cs-persona-title">${s.title}</p>
+            ${bul(s.items)}
+          </div>
+        </div>
+      </div>`,
+
+    "role-split": s => `
+      <div class="cs-section">
+        <h2 class="cs-h2">${s.heading}</h2>
+        <p class="cs-team">${s.team}</p>
+        <div class="cs-role-split">
+          <div class="cs-role-col"><h4>${s.left.label}</h4>${bul(s.left.items)}</div>
+          <div class="cs-role-col"><h4>${s.right.label}</h4>${bul(s.right.items)}</div>
+        </div>
+      </div>`,
+
+    "role-para": s => `
+      <div class="cs-section">
+        <h2 class="cs-h2">${s.heading}</h2>
+        <p class="cs-team">${s.team}</p>
+        <p class="cs-body">${s.desc.replace(/\n\n/g,'</p><p class="cs-body" style="margin-top:16px">')}</p>
+      </div>`,
+
+    "research": s => `
+      <div class="cs-section">
+        <h2 class="cs-h2">${s.heading}</h2>
+        <div class="cs-research-grid">
+          <div>
+            <p class="cs-sublabel">${s.sublabel}</p>
+            <p class="cs-body">${s.desc}</p>
+            <p class="cs-insights-sub-title">${s.insightsHeading}</p>
+            ${bul(s.insights.map(i=>i.title), "cs-bullets")}
+          </div>
+          <div class="cs-research-img"><img src="${s.img}" alt="Research" loading="lazy"/></div>
+        </div>
+      </div>`,
+
+    "full-img": s => `
+      <div class="cs-section">
+        <h2 class="cs-h2">${s.heading}</h2>
+        ${s.sublabel ? `<p class="cs-sublabel">${s.sublabel}</p>` : ""}
+        <div class="cs-full-img"><img src="${s.img}" alt="${s.heading}" loading="lazy"/></div>
+      </div>`,
+
+    "users-list": s => `
+      <div class="cs-section">
+        <h2 class="cs-h2">${s.heading}</h2>
+        <div class="cs-users-grid">
+          ${s.items.map(u=>`
+            <div class="cs-user-card">
+              <p class="cs-user-card-title">${u.title}</p>
+              <p class="cs-user-card-desc">${u.desc}</p>
+            </div>`).join("")}
+        </div>
+      </div>`,
+
+    "users-two-col": s => `
+      <div class="cs-section">
+        <h2 class="cs-h2">${s.heading}</h2>
+        <div class="cs-users-two-col">
+          <p class="cs-user-text">${s.left}</p>
+          <p class="cs-user-text">${s.right}</p>
+        </div>
+      </div>`,
+
+    "insights-grid": s => `
+      <div class="cs-section">
+        <h2 class="cs-h2">${s.heading}</h2>
+        <div class="cs-insights-grid-wrap">
+          ${s.items.map(i=>`
+            <div class="cs-insight-item">
+              <div class="cs-insight-star">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#F5A623"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+              </div>
+              <p class="cs-insight-head">${i.title}</p>
+              ${i.desc ? `<p class="cs-insight-desc">${i.desc}</p>` : ""}
+            </div>`).join("")}
+        </div>
+      </div>`,
+
+    "features-intro": s => `
+      <div class="cs-section cs-features-intro">
+        <h2 class="cs-h2">${s.heading}</h2>
+        <p class="cs-body muted">${s.desc}</p>
+      </div>`,
+
+    "feature": s => `
+      <div class="cs-feature${s.imgLeft?" img-left":""}">
+        <div class="cs-feat-body">
+          <h3 class="cs-feat-title">${s.heading}</h3>
+          <p class="cs-feat-desc">${s.desc}</p>
+          ${s.bullets && s.bullets.length ? bul(s.bullets,"cs-feat-bullets") : ""}
+        </div>
+        <div class="cs-feat-img"><img src="${s.img}" alt="${s.heading}" loading="lazy"/></div>
+      </div>`,
+
+    "outcomes": s => `
+      <div class="cs-section">
+        <h2 class="cs-h2">${s.heading}</h2>
+        ${s.intro ? `<p class="cs-outcome-intro">${s.intro}</p>` : ""}
+        <div class="cs-outcome-items">
+          ${s.items.map(o=>`
+            <div class="cs-outcome-item">
+              ${CHECK}
+              <div class="cs-outcome-body">
+                <p class="cs-outcome-title">${o.title}</p>
+                <p class="cs-outcome-desc">${o.desc}</p>
+              </div>
+            </div>`).join("")}
+        </div>
+      </div>`,
+
+    "outcome-table": s => {
+      const [header, ...rows] = s.rows;
+      return `
+        <div class="cs-section">
+          <h2 class="cs-h2">${s.heading}</h2>
+          <p class="cs-body muted">${s.intro}</p>
+          <div class="cs-metrics-wrap">
+            <table class="cs-metrics-table">
+              <thead><tr>
+                <th></th>
+                <th>${header.dec2022}</th>
+                <th>${header.apr2024}</th>
+              </tr></thead>
+              <tbody>
+                ${rows.map(r=>`<tr><td>${r.label}</td><td>${r.dec2022}</td><td>${r.apr2024}</td></tr>`).join("")}
+              </tbody>
+            </table>
+          </div>
+        </div>`;
+    }
+  };
+
+  /* ── Hero ── */
+  const metaHtml = [
+    {label:"Platform", value:cs.platform},
+    {label:"Duration",  value:cs.duration},
+    {label:"My Role",   value:cs.role}
+  ].map((m,i)=>`
+    ${i>0?'<div class="cs-meta-sep"></div>':''}
+    <div class="cs-meta-item">
+      <span class="cs-meta-label">${m.label}</span>
+      <span class="cs-meta-value">${m.value}</span>
+    </div>`).join("");
+
+  const heroHtml = `
+    <section class="cs-hero" style="background:${cs.heroColor}">
+      <div class="container">
+        <a href="Portfolio.html#work" class="cs-back back-link">← Back to projects</a>
+        <div class="cs-tags">${tagsHtml}</div>
+        <h1 class="cs-title">${cs.title}</h1>
+        <p class="cs-subtitle">${cs.subtitle}</p>
+        <div class="cs-meta-row">${metaHtml}</div>
+      </div>
+    </section>`;
+
+  const heroImgHtml = cs.heroImg ? `
+    <section class="cs-hero-img" style="background:${cs.heroColor}">
+      <div class="container">
+        <img src="${cs.heroImg}" alt="${cs.title}" class="cs-cover-img"/>
+      </div>
+    </section>` : "";
+
+  /* ── Sections ── */
+  const wrapFeatures = sections => {
+    if(!sections || !sections.length) return "";
+    let out = "", inFeatures = false;
+    sections.forEach(s => {
+      if(s.type === "feature"){
+        if(!inFeatures){ out += `<div class="cs-features-wrap">`; inFeatures=true; }
+        out += (renderers.feature)(s);
+      } else {
+        if(inFeatures){ out += `</div>`; inFeatures=false; }
+        const fn = renderers[s.type];
+        out += fn ? fn(s) : "";
+      }
+    });
+    if(inFeatures) out += `</div>`;
+    return out;
+  };
+
+  const sectionsHtml = wrapFeatures(cs.sections || []);
+
+  /* ── Prev / Next nav ── */
+  const navHtml = `
+    <div class="case-nav" style="margin-top:0;padding-top:40px;border-top:1px solid var(--line)">
+      <a href="${prevUrl}" class="case-nav-link">← ${prev.title}</a>
+      <a href="${nextUrl}" class="case-nav-link">${next.title} →</a>
+    </div>`;
+
+  /* ── Assemble ── */
+  body.innerHTML = `
+    ${heroHtml}
+    ${heroImgHtml}
+    <section style="padding:72px 0 96px">
+      <div class="container">
+        ${sectionsHtml}
+        ${navHtml}
+      </div>
+    </section>`;
+
+  /* Reveal on scroll */
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); }});
+  },{threshold:.08});
+  document.querySelectorAll(".cs-section,.cs-feature,.cs-features-wrap").forEach(n=>{ n.classList.add("reveal"); io.observe(n); });
+
+})();
