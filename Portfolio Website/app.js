@@ -135,7 +135,7 @@ function renderLeaders(){
     const col = el("div","col-md-6");
     if(s.col) col.setAttribute("style", s.col);
     col.innerHTML = `
-      <div class="leader-card" style="${s.card||''}">
+      <div class="leader-card h-100" style="${s.card||''}">
         <div class="leader-ic" aria-hidden="true" style="${s.ic||''}"><img src="${l.img}" alt=""/></div>
         <div class="leader-body">
           <h3>${l.t}</h3>
