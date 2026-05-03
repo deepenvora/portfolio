@@ -108,6 +108,17 @@ const CS_DATA = {
       },
 
       { type: "feature", imgLeft: false,
+        heading: "Family Sharing",
+        desc: "Add Family. Share at ease. Plan together.",
+        bullets: [
+          "Permission-based family sharing",
+          "Joint financial planning and goals",
+          "Reduced dependency on a single family member"
+        ],
+        img: "assets/case-studies/famli/family-goals.png"
+      },
+
+      { type: "feature", imgLeft: false,
         heading: "AI Research Buddy",
         desc: "An AI companion that helps users make sense of money decisions.",
         bullets: [
