@@ -523,7 +523,7 @@ body.dark .tag.green, body.dark .tag.purple, body.dark .tag.amber, body.dark .ta
 /* ========================================================
    LEADERSHIP
    ======================================================== */
-.leader-grid{row-gap:24px}
+.leader-grid{row-gap:48px}
 .leader-card{
   display:flex;
   align-items:flex-start;
