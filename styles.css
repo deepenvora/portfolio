@@ -1262,7 +1262,7 @@ body.modal-open{overflow:hidden}
 .cs-title{margin:0 0 12px;font-family:var(--head-font);font-weight:700;font-size:clamp(32px,3.5vw,48px);line-height:1.1;letter-spacing:-.02em;color:var(--ink)}
 .cs-subtitle{margin:0 0 32px;font-size:clamp(16px,1.4vw,20px);line-height:1.5;color:var(--muted);max-width:860px}
 .cs-meta-row{display:flex;flex-wrap:wrap;align-items:stretch;gap:0}
-.cs-meta-item{display:flex;flex-direction:column;gap:2px;padding-right:32px}
+.cs-meta-item{display:flex;flex-direction:column;gap:2px;padding-right:32px;min-width:120px}
 .cs-meta-label{font-size:14px;font-weight:500;color:var(--ink)}
 .cs-meta-value{font-size:14px;color:var(--ink-2)}
 .cs-meta-sep{width:1px;background:var(--muted);opacity:.3;margin-right:32px;align-self:stretch;min-height:32px}
@@ -1391,7 +1391,7 @@ img[src="assets/case-studies/famli/goals.png"]{max-width:100%;height:auto;displa
   .cs-h2{font-size:24px;line-height:36px}
   .cs-col-heading{font-size:24px;line-height:36px}
   .cs-feat-title{font-size:24px;line-height:36px}
-  .cs-meta-row{flex-direction:column;gap:16px}
+  .cs-meta-row{flex-direction:row;flex-wrap:wrap;gap:24px}
   .cs-meta-sep{display:none}
   .cs-meta-item{padding:0}
   .cs-two-col{grid-template-columns:1fr;gap:32px}
