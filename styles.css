@@ -1394,6 +1394,7 @@ img[src="assets/case-studies/famli/goals.png"]{max-width:100%;height:auto;displa
   .cs-meta-row{flex-direction:row;flex-wrap:wrap;gap:24px}
   .cs-meta-sep{display:none}
   .cs-meta-item{padding:0}
+  .cs-meta-item:not(:last-child){border-right:1px solid #E5E5E5;padding-right:24px}
   .cs-two-col{grid-template-columns:1fr;gap:32px}
   .cs-feature{grid-template-columns:1fr!important;gap:24px}
   .cs-feature.img-left .cs-feat-img{order:initial}
