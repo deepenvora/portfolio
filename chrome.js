@@ -20,7 +20,7 @@
         <a href="${base}index.html#work" class="nav-link ${page==='work'?'is-active':''}">Projects</a>
         <a href="${base}about.html" class="nav-link ${page==='about'?'is-active':''}">About</a>
         <a href="${base}experiments.html" class="nav-link ${page==='experiments'?'is-active':''}">Experiments</a>
-        <a href="${base}assets/Deepen_Vora_Resume.pdf" class="btn btn-primary btn-sm" id="resumeBtn" target="_blank" download="Deepen_Vora_Resume.pdf">
+        <a href="${base}assets/deepen_resume.pdf" class="btn btn-primary btn-sm" id="resumeBtn" target="_blank" download="deepen_resume.pdf">
           Resume
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         </a>
@@ -100,7 +100,7 @@
   const rb = document.getElementById("resumeBtn");
   if(rb && rb.tagName === 'BUTTON') rb.addEventListener("click", (e)=>{
     e.preventDefault();
-    window.open(rb.closest('[data-base]')?.dataset?.base + 'assets/Deepen_Vora_Resume.pdf', '_blank');
+    window.open(rb.closest('[data-base]')?.dataset?.base + 'assets/deepen_resume.pdf', '_blank');
   });
 
   // Reveal on scroll
